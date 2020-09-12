@@ -9,15 +9,14 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLContext
-import javax.security.cert.CertificateException
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
-import java.util.concurrent.TimeUnit
+import javax.security.cert.CertificateException
 
 /**
  * Created by Adi Purnama
@@ -64,10 +63,8 @@ fun createHttpClient(): OkHttpClient {
             }
         })
 
-        // Install the all-trusting trust manager
         val sslContext = SSLContext.getInstance("SSL")
         sslContext.init(null, trustAllCerts, java.security.SecureRandom())
-        // Create an ssl socket factory with our all-trusting manager
         val sockTLSSocketFactory = sslContext.socketFactory
 
         client.sslSocketFactory(sockTLSSocketFactory, trustAllCerts[0] as X509TrustManager)
@@ -75,9 +72,9 @@ fun createHttpClient(): OkHttpClient {
     } catch (e: Exception) {
         e.printStackTrace()
     }
-    client.readTimeout(60, TimeUnit.SECONDS)
-    client.writeTimeout(60, TimeUnit.SECONDS)
-    client.connectTimeout(60,TimeUnit.SECONDS)
+    client.readTimeout(30, TimeUnit.SECONDS)
+    client.writeTimeout(30, TimeUnit.SECONDS)
+    client.connectTimeout(30,TimeUnit.SECONDS)
     client.addInterceptor(provideHttpLoggingInterceptor())
     return client.addInterceptor {
         val original = it.request()

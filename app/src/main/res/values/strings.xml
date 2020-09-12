@@ -1,3 +1,10 @@
 <resources>
 		<string name="app_name">TMDb</string>
+    <string name="contentDescription">Images</string>
+    <string name="search">Search</string>
+    <string name="tag_line">TAGLINE</string>
+    <string name="galery">Galery</string>
+    <string name="backdrop">BACKDROPS</string>
+    <string name="posters">POSTERS</string>
+    <string name="no_connection">Cannot connect to server</string>
 </resources>

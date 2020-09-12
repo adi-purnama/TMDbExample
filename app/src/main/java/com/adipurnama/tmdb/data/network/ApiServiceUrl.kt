@@ -25,5 +25,5 @@ interface ApiServiceUrl {
 
     @GET("movie/{id}/images")
     fun getMovieImagesAsync(
-        @Path("id") id: String): Deferred<Response<MovieDetail>>
+        @Path("id") id: String): Deferred<Response<MovieImages>>
 }

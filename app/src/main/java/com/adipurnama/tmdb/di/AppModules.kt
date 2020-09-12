@@ -1,11 +1,11 @@
 package com.adipurnama.tmdb.di
 
-import com.adipurnama.tmdb.data.network.ApiServiceUrl
 import com.adipurnama.tmdb.repo.MainRepo
 import com.adipurnama.tmdb.ui.MainVM
+import com.adipurnama.tmdb.ui.detail.DetailVM
+import com.adipurnama.tmdb.ui.photos.MoviePhotosVM
 import kotlinx.coroutines.CoroutineScope
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 /**
@@ -19,4 +19,6 @@ val appModules = module {
 
     /*Inject View Model*/
     viewModel { MainVM() }
+    viewModel { DetailVM() }
+    viewModel { MoviePhotosVM() }
 }

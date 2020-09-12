@@ -8,8 +8,8 @@ import com.squareup.moshi.Json
  */
 data class MovieImages(
     @Json(name="id") val id:Double=0.0,
-    @Json(name="backdrops") val backdrops:List<ImagesBackDrop>,
-    @Json(name="posters") val posters:List<ImagesPosters>
+    @Json(name="backdrops") val backdrops:List<ImagesBackDrop>?,
+    @Json(name="posters") val posters:List<ImagesPosters>?
 )
 
 data class ImagesBackDrop(
