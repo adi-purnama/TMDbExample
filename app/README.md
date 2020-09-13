@@ -1,0 +1,11 @@
+This is android MVVM example consume REST API from TMDB,this example use:
+- Kotlin
+- databinding : for bind view and viewmodel
+- coroutine : for thread management
+- koin : dependency injection
+- livedata : lifecycle aware
+- retrofit : Rest API
+- mosi: Json Wrapper
+- Glide : For Image viewer
+- PhotoView: for view image with zoom and pager
+- skeleton: shimmer loading animation
