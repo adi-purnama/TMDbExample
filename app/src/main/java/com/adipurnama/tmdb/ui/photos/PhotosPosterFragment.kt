@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.adipurnama.tmdb.R
 import com.adipurnama.tmdb.ui.adapter.MoviePosterAdapter
 import com.adipurnama.tmdb.ui.viewPhotos.ImageViewerActivity
+import com.adipurnama.tmdb.utilitys.IMAGE_URL
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -43,7 +44,7 @@ class PhotosPosterFragment : Fragment() {
         adapter= MoviePosterAdapter{
             val intentViewImage= Intent(fragmentContext, ImageViewerActivity::class.java)
             val imageArray= arrayListOf<String>()
-            imageArray.add("https://image.tmdb.org/t/p/w500${it.filePath}")
+            imageArray.add("$IMAGE_URL${it.filePath}")
             intentViewImage.putExtra("urls",imageArray)
             intentViewImage.putExtra("page",0)
             startActivity(intentViewImage)

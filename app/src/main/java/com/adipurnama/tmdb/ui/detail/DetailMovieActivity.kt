@@ -9,6 +9,7 @@ import com.adipurnama.tmdb.data.network.MovieDetail
 import com.adipurnama.tmdb.databinding.ActivityMovieDetailBinding
 import com.adipurnama.tmdb.ui.photos.MoviePhotosActivity
 import com.adipurnama.tmdb.utilitys.EventObserver
+import com.adipurnama.tmdb.utilitys.IMAGE_URL
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
@@ -71,7 +72,7 @@ class DetailMovieActivity : AppCompatActivity() {
     private fun setView(item:MovieDetail){
         if (item.poster_path.isNotEmpty()) {
             Glide.with(this)
-                .load("https://image.tmdb.org/t/p/w500${item.poster_path}")
+                .load("$IMAGE_URL${item.poster_path}")
                 .apply(
                     RequestOptions()
                         .fitCenter()

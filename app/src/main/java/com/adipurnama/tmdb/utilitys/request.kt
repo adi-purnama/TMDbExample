@@ -21,37 +21,42 @@ fun <T> request(coroutineScope: CoroutineScope,
         handlingResponse(response) { results(it) }
     }
 }
+
+/*this function use coroutine for non blocking thread*/
 suspend fun <T> handlingResponse(response: suspend() -> Response<T>,
                                  results:(Result<T>) -> Unit) {
+    val stringFailure="Failed to connect to server"
     try {
         val result = response()
         if (result.isSuccessful) {
             result.body()?.let { body ->
                 if (result.code() == 500) {
-                    results(Result.Failure("Failed to connect to server"))
+                    /*server send internal error*/
+                    results(Result.Failure(stringFailure))
                 } else {
                     results(Result.Success(body))
                 }
             }
         } else {
-            var bodyError="Failed to connect to server"
+            /*get error message from response*/
+            var bodyError=stringFailure
             if (result.code()!=500) {
                 try {
                     val message = JSONObject(result.errorBody()?.string()?:"")
                     if (message.has("message")) bodyError = message.getString("message")
                 } catch (ex: JSONException) {
-                    Log.e("API NOT JSON ", " $ex")
+                    Log.e(">>>API NOT JSON ", " $ex")
                     results(Result.Failure(bodyError))
                 }
             }
-            Log.e("API ERROR"," ${result.errorBody()?.contentType()}")
+            Log.e(">>>API ERROR"," ${result.errorBody()?.contentType()}")
             results(Result.Failure(bodyError))
         }
     } catch (throwable: Throwable) {
-        Log.e("API THROW", throwable.toString())
-        results(Result.Failure("Failed to connect to server"))
+        Log.e(">>>API THROW", throwable.toString())
+        results(Result.Failure(stringFailure))
     } catch (networkError: IOException) {
-        Log.e("API Network"," $networkError")
-        results(Result.Failure("Failed to connect to server"))
+        Log.e(">>>API Network"," $networkError")
+        results(Result.Failure(stringFailure))
     }
 }

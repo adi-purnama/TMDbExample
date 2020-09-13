@@ -12,8 +12,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.adipurnama.tmdb.R
 import com.adipurnama.tmdb.ui.adapter.MovieBackdropAdapter
 import com.adipurnama.tmdb.ui.viewPhotos.ImageViewerActivity
+import com.adipurnama.tmdb.utilitys.EventObserver
+import com.adipurnama.tmdb.utilitys.IMAGE_URL
 import com.ethanhua.skeleton.Skeleton
 import com.ethanhua.skeleton.SkeletonScreen
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_photos_backdrop.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -39,24 +43,21 @@ class PhotosBackdropFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         backdropRecycleView= view.findViewById(R.id.photos_backdrop)
         adapter=MovieBackdropAdapter{
             val intentViewImage=Intent(fragmentContext,ImageViewerActivity::class.java)
             val imageArray= arrayListOf<String>()
-            imageArray.add("https://image.tmdb.org/t/p/w500${it.filePath}")
+            imageArray.add("$IMAGE_URL${it.filePath}")
             intentViewImage.putExtra("urls",imageArray)
             intentViewImage.putExtra("page",0)
             startActivity(intentViewImage)
         }
         backdropRecycleView.layoutManager = GridLayoutManager(fragmentContext, 2)
         backdropRecycleView.adapter=adapter
+
         showShimmer()
-        moviePhotosVM.movieImages.observe(viewLifecycleOwner,{
-            if (it.backdrops != null) {
-                skeletonScreen.hide()
-                adapter.setListData(it.backdrops)
-            }
-        })
+        setObserver()
     }
 
     override fun onAttach(context: Context) {
@@ -69,5 +70,28 @@ class PhotosBackdropFragment : Fragment() {
             .adapter(adapter)
             .load(R.layout.item_movie_list)
             .show()
+    }
+
+    private fun setObserver(){
+        moviePhotosVM.movieImages.observe(viewLifecycleOwner,{
+            if (it.backdrops != null) {
+                skeletonScreen.hide()
+                adapter.setListData(it.backdrops)
+            }
+        })
+        moviePhotosVM.showLoading.observe(viewLifecycleOwner,{
+            if (it != null && it){
+                skeletonScreen.show()
+            }else{
+                skeletonScreen.hide()
+            }
+        })
+        /*Observer error event*/
+        moviePhotosVM.showError.observe(viewLifecycleOwner, EventObserver{
+            if (it != null){
+                Snackbar.make(parent_photo_backdrop," $it", Snackbar.LENGTH_SHORT).show()
+                skeletonScreen.hide()
+            }
+        })
     }
 }

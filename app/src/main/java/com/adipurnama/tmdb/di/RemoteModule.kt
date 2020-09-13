@@ -2,6 +2,8 @@ package com.adipurnama.tmdb.di
 
 import android.annotation.SuppressLint
 import com.adipurnama.tmdb.data.network.ApiServiceUrl
+import com.adipurnama.tmdb.utilitys.API_KEY
+import com.adipurnama.tmdb.utilitys.BASE_URL
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.JsonReader
@@ -27,12 +29,13 @@ val remoteModules = module {
     single{
         createWebService<ApiServiceUrl>(
             createHttpClient(),
-            "https://api.themoviedb.org/3/"
+            BASE_URL
         )
     }
 
 }
 
+/*this wrapper for null value to string*/
 object NullToEmptyString {
     @FromJson
     fun fromJson(reader: JsonReader): String {
@@ -43,6 +46,7 @@ object NullToEmptyString {
         return ""
     }
 }
+
 fun createHttpClient(): OkHttpClient {
     val client = OkHttpClient.Builder()
     try {
@@ -78,7 +82,7 @@ fun createHttpClient(): OkHttpClient {
     client.addInterceptor(provideHttpLoggingInterceptor())
     return client.addInterceptor {
         val original = it.request()
-        val url=original.url.newBuilder().addQueryParameter("api_key","b35bb1d0d8faeb9d23c9fc6a303fc5b8").build()
+        val url=original.url.newBuilder().addQueryParameter("api_key", API_KEY).build()
         val requestBuilder = original.newBuilder()
         requestBuilder.url(url)
         requestBuilder.header("Content-Type", "application/json")

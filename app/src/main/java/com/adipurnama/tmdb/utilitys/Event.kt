@@ -1,9 +1,6 @@
 package com.adipurnama.tmdb.utilitys
 
-/**
- * Created by Adi Purnama
- * @2019
- */
+/*class for use once event*/
 open class Event<out T>(private val content: T) {
 
     private var hasBeenHandled = false

@@ -10,10 +10,12 @@ import org.koin.core.context.startKoin
  * @2019
  */
 
+/*class for setting KOIN,Database,Firebase or etc*/
 @Suppress("unused")
 class App : Application(){
     override fun onCreate() {
         super.onCreate()
+        /*setting koin for use injection module*/
         startKoin {
             androidContext(this@App)
             modules(listOf(remoteModules, appModules))

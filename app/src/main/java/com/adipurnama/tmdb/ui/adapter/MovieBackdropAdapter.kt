@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.adipurnama.tmdb.R
 import com.adipurnama.tmdb.data.network.ImagesBackDrop
 import com.adipurnama.tmdb.databinding.ItemMovieBackdropBinding
+import com.adipurnama.tmdb.utilitys.IMAGE_URL
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
@@ -38,7 +39,7 @@ internal class MovieBackdropAdapter(itemEvents: (ImagesBackDrop)->Unit) :
             binding.data=item
             if (item.filePath.isNotEmpty()) {
                 Glide.with(context)
-                    .load("https://image.tmdb.org/t/p/w500${item.filePath}")
+                    .load("$IMAGE_URL${item.filePath}")
                     .apply(
                         RequestOptions()
                             .fitCenter()

@@ -1,9 +1,5 @@
 package com.adipurnama.tmdb.utilitys
 
-/**
- * Created by Adi Purnama
- * @2019
- */
 import androidx.lifecycle.Observer
 
 /**
